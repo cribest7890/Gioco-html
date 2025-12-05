@@ -37,6 +37,15 @@
       transform: translateX(-50%);
       font-size: 20px;
       color: #ff1d8d;
+
+     .absreset {
+       position: absolute;
+       bottom: 140px;
+       left: 50%;
+       transform: translateX(-50%); 
+       font-size: 20px;
+       color: gold;
+       opacity: 0.0;
     }
   </style>
   <script>
@@ -44,10 +53,13 @@
       var pallina = document.querySelector('.pallina');
       var contatore = document.querySelector('.contatore');
       var monete = document.querySelector('.monete');
+      var absreset = document.querySelector('.absreset');
       var clickCount = 0;
       var coinCount = 0;
+      var absresetCount = 0;
       var pallinaSize = 50; // dimensione iniziale della pallina
       var maxSize = Math.min(window.innerWidth, window.innerHeight); // max size per riempire lo schermo
+      
 
 // Funzione per cambiare colore, aumentare la dimensione e verificare il reset
       document.addEventListener("click", function() {
@@ -69,10 +81,10 @@
           pallinaSize = 50 * 1.01; // La nuova dimensione della pallina aumentata di 0.01
           pallina.style.width = pallinaSize + "px";
           pallina.style.height = pallinaSize + "px";
-
           // Aggiungi una moneta
           coinCount++;
 
+       
           // Aggiorna i contatori
           contatore.innerText = "click: " + clickCount;
           monete.innerText = "resets: " + coinCount;
@@ -81,6 +93,12 @@
           contatore.innerText = "click: " + clickCount;
 
         document.addEventListener("keydown", clickCount++)
+
+          if (coinCount >= 1000);
+          absresetCount++;
+          coinCount == 0;
+          absreset.innerText = "absolute resets: " + absresetCount;
+          absreset.style.opacity = 1.0;
         }
       });
     }
@@ -96,6 +114,10 @@
 
   <!-- Testo per il contatore delle monete -->
   <div class="monete">resets: 0</div>
+
+  <div class="absreset">absolute resets: 0</div>
+
+  
 
 </body>
 </html>
