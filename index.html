@@ -67,7 +67,7 @@
 // Funzione per cambiare colore, aumentare la dimensione e verificare il reset
       document.addEventListener("click", function() {
         // Incrementa il contatore dei clic
-        
+      document.addEventListener("keydown", clickCount++)
 
         // Cambia il colore della pallina a caso
         var colore = "#" + Math.floor(Math.random() * 16777215).toString(16);
@@ -87,7 +87,6 @@
           // Aggiungi una moneta
           coinCount++;
 
-       document.addEventListener("keydown", clickCount++)
           // Aggiorna i contatori
           contatore.innerText = "click: " + clickCount;
           monete.innerText = "resets: " + coinCount;
