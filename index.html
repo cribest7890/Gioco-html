@@ -97,9 +97,9 @@
           // Aggiorna il contatore dei clic
           contatore.innerText = "click: " + clickCount
 
-          document.addEventListener("keydown", function() {
-            clickCount++
-          } 
+          document.addEventListener("keydown", clickCount++) 
+           
+      
         } 
           if (coinCount >= 700) {
             absresetCount++;
