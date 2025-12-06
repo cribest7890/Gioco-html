@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <body style="background-color: black;">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ball clicker</title>
+  <title>Ball Clicker</title>
   <style>
-    /* Stile iniziale della pallina */
+    body {
+      background-color: black;
+      margin: 0;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
     .pallina {
       width: 50px;
       height: 50px;
@@ -19,137 +24,106 @@
       transition: all 0.3s ease;
     }
 
-    /* Stile per il testo del contatore dei clic */
-    .contatore {
+    .contatore, .monete, .absreset {
       position: absolute;
-      bottom: 200px;
       left: 50%;
       transform: translateX(-50%);
       font-size: 20px;
       color: white;
     }
 
-    /* Stile per il contatore delle monete */
-    .monete {
-      position: absolute;
-      bottom: 170px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 20px;
-      color: #ff1d8d;
-    } 
+    .contatore {
+      bottom: 200px;
+    }
 
-     .absreset {
-       position: absolute;
-       bottom: 140px;
-       left: 50%;
-       transform: translateX(-50%); 
-       font-size: 20px;
-       color: gold;
-       opacity: 0.0;
-       transition: all 0.5s ease;
-     }
-     
-    
+    .monete {
+      bottom: 170px;
+      color: #ff1d8d;
+    }
+
+    .absreset {
+      bottom: 140px;
+      color: gold;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
   </style>
+</head>
+<body>
+
+  <div class="pallina"></div>
+  <div class="contatore">clicks: 0</div>
+  <div class="monete">resets: 0</div>
+  <div class="absreset">absolute resets: 0</div>
+
   <script>
     window.onload = function() {
-      var pallina = document.querySelector('.pallina');
-      var contatore = document.querySelector('.contatore');
-      var monete = document.querySelector('.monete');
-      var absreset = document.querySelector('.absreset');
-      var clickCount = 0;
-      var coinCount = 0;
-      var absresetCount = 0;
-      var pallinaSize = 50; // dimensione iniziale della pallina
-      var maxSize = Math.min(window.innerWidth, window.innerHeight); // max size per riempire lo schermo
-      clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
-      coinCount = parseInt(localStorage.getItem('coinCount')) || 0;
-      absresetCount = parseInt(localStorage.getItem('absresetCount')) || 0;
-      pallinaSize = parseFloat(localStorage.getItem('pallinaSize')) || 50;
+      const pallina = document.querySelector('.pallina');
+      const contatore = document.querySelector('.contatore');
+      const monete = document.querySelector('.monete');
+      const absreset = document.querySelector('.absreset');
 
-// Aggiorna i contatori iniziali
+      let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
+      let coinCount = parseInt(localStorage.getItem('coinCount')) || 0;
+      let absresetCount = parseInt(localStorage.getItem('absresetCount')) || 0;
+      let pallinaSize = parseFloat(localStorage.getItem('pallinaSize')) || 50;
+      const maxSize = Math.min(window.innerWidth, window.innerHeight);
+
+      // Aggiorna i contatori iniziali
       contatore.innerText = "click: " + clickCount;
       monete.innerText = "resets: " + coinCount;
       absreset.innerText = "absolute resets: " + absresetCount;
       if (absresetCount > 0) {
-        absreset.style.opacity = 1.0;
+        absreset.style.opacity = 1;
         pallina.style.width = pallinaSize + "px";
         pallina.style.height = pallinaSize + "px";
-      } 
-// Funzione per cambiare colore, aumentare la dimensione e verificare il reset
-      document.addEventListener("click", function() {
-      document.addEventListener("keydown", function() {
-        clickCount++
-      });
-        // Incrementa il contatore dei clic
-        // Salva i dati nel localStorage
-        
-      
+      }
 
-        // Cambia il colore della pallina a caso
-        var colore = "#" + Math.floor(Math.random() * 16777215).toString(16);
+      function handleEvent(e) {
+        // Incrementa click solo al click
+        if (e.type === "click") clickCount++;
+
+        // Cambia colore casuale
+        const colore = "#" + Math.floor(Math.random() * 16777215).toString(16);
         pallina.style.backgroundColor = colore;
 
-        // Aumenta leggermente la dimensione della pallina
-        pallinaSize *= 1.1 + coinCount * 0.01; // Aumenta di 10%
+        // Aumenta dimensione pallina
+        pallinaSize *= 1.1 + coinCount * 0.01;
         pallina.style.width = pallinaSize + "px";
         pallina.style.height = pallinaSize + "px";
 
-        // Verifica se la pallina ha raggiunto la dimensione massima per "riempire" lo schermo
+        // Reset dimensione se supera max
         if (pallinaSize >= maxSize) {
-          // Reset della pallina
-          pallinaSize = 50 * 1.01; // La nuova dimensione della pallina aumentata di 0.01
+          pallinaSize = 50 * 1.01;
           pallina.style.width = pallinaSize + "px";
           pallina.style.height = pallinaSize + "px";
-          // Aggiungi una moneta
           coinCount++;
+        }
 
-          // Aggiorna i contatori
-          contatore.innerText = "click: " + clickCount;
-          monete.innerText = "resets: " + coinCount;
-        } else {
-          // Aggiorna il contatore dei clic
-          contatore.innerText = "click: " + clickCount;
-        } 
-          
-        
-           
-      
-        
-          if (coinCount >= 700) {
-            absresetCount++;
-            coinCount -= 700;
-            monete.innerText = "resets: " + coinCount;
-            absreset.innerText = "absolute resets: " + absresetCount;
-            absreset.style.opacity = 1.0;
-          } 
-        
+        // Gestione absolute reset
+        if (coinCount >= 700) {
+          absresetCount++;
+          coinCount -= 700;
+          absreset.style.opacity = 1;
+        }
 
+        // Aggiorna contatori visibili
+        contatore.innerText = "click: " + clickCount;
+        monete.innerText = "resets: " + coinCount;
+        absreset.innerText = "absolute resets: " + absresetCount;
+
+        // Salva nello storage
         localStorage.setItem('clickCount', clickCount);
         localStorage.setItem('coinCount', coinCount);
         localStorage.setItem('absresetCount', absresetCount);
         localStorage.setItem('pallinaSize', pallinaSize);
+      }
 
-      });
+      // Unico listener per click e tasti
+      document.addEventListener("click", handleEvent);
+      document.addEventListener("keydown", handleEvent);
     }
   </script>
-</head>
-<body>
-
-  <!-- La pallina -->
-  <div class="pallina"></div>
-
-  <!-- Testo per il contatore dei clic -->
-  <div class="contatore">clicks: 0</div>
-
-  <!-- Testo per il contatore delle monete -->
-  <div class="monete">resets: 0</div>
-  
-  <div class="absreset">absolute resets: 0</div>
- 
-
-  
 
 </body>
 </html>
