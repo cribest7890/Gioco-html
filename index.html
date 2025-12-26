@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
-  <script>
-    window.CrazyGames = window.CrazyGames || {};
-    CrazyGames.SDK.init();
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ball Clicker</title>
@@ -74,26 +69,7 @@
   <div id="banner-container" style="width: 320px; height: 50px"></div>
 
   <script>
-    window.onload = async function() {
-      try {
-        const user = await window.CrazyGames.SDK.user.getUser();
-        console.log(user);
-     } catch (e) {
-         console.log("Get user error:", e);
-     }
-
-      try {
-  // await is not mandatory when requesting banners,
-  // but it will allow you to catch errors
-        await window.CrazyGames.SDK.banner.requestBanner({
-          id: "banner-container",
-          width: 320,
-          height: 50,
-     });
-      } catch (e) {
-           console.log("Banner request error", e);
-       }
-      
+    window.onload = async function() 
       let clickCount = parseInt(localstorage.getItem('clickCount')) || 0;
       let coinCount = parseInt(localstorage.getItem('coinCount')) || 0;
       let absresetCount = parseInt(localstorage.getItem('absresetCount')) || 0;
@@ -150,10 +126,6 @@
         localStorage.setItem('coinCount', coinCount);
         localStorage.setItem('absresetCount', absresetCount);
         localStorage.setItem('pallinaSize', pallinaSize);
-        window.CrazyGames.SDK.data.setItem('clickCount', clickCount);
-        window.CrazyGames.SDK.data.setItem('coinCount', coinCount);
-        window.CrazyGames.SDK.data.setItem('absresetCount', absresetCount);
-        window.CrazyGames.SDK.data.setItem('pallinaSize', pallinaSize);
       }
 
       // Unico listener per click e tasti
