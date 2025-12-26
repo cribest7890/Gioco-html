@@ -94,22 +94,16 @@
            console.log("Banner request error", e);
        }
       
-      const pallina = document.querySelector('.pallina');
-      const contatore = document.querySelector('.contatore');
-      const monete = document.querySelector('.monete');
-      const absreset = document.querySelector('.absreset');
-      const license = document.querySelector('.license')
-
       let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
       let coinCount = parseInt(localStorage.getItem('coinCount')) || 0;
       let absresetCount = parseInt(localStorage.getItem('absresetCount')) || 0;
       let pallinaSize = parseFloat(localStorage.getItem('pallinaSize')) || 50;
-      const maxSize = Math.min(window.innerWidth, window.innerHeight);
 
-      let clickCount = parseInt(CrazyGames.getItem('clickCount')) || 0;
-      let coinCount = parseInt(CrazyGames.getItem('coinCount')) || 0;
-      let absresetCount = parseInt(CrazyGames.getItem('absresetCount')) || 0;
-      let pallinaSize = parseFloat(CrazyGames.getItem('pallinaSize')) || 50;
+// Sovrascrivi se esistono valori nel SDK
+      clickCount = parseInt(window.CrazyGames.SDK.data.getItem('clickCount')) || clickCount;
+      coinCount = parseInt(window.CrazyGames.SDK.data.getItem('coinCount')) || coinCount;
+      absresetCount = parseInt(window.CrazyGames.SDK.data.getItem('absresetCount')) || absresetCount;
+      pallinaSize = parseFloat(window.CrazyGames.SDK.data.getItem('pallinaSize')) || pallinaSize;
       
       // Aggiorna i contatori iniziali
       contatore.innerText = "click: " + clickCount;
