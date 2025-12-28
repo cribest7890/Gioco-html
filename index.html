@@ -100,7 +100,7 @@
       const maxSize = Math.min(window.innerWidth, window.innerHeight);
 
       // Aggiorna i contatori iniziali
-      contatore.innerText = "click: " + clickCount;
+      contatore.innerText = "click: " + clickCount.toFixed(1);
       monete.innerText = "resets: " + coinCount;
       absreset.innerText = "absolute resets: " + absresetCount;
       if (absresetCount > 0) {
@@ -138,7 +138,7 @@
         }
 
         // Aggiorna contatori visibili
-        contatore.innerText = "click: " + clickCount;
+        contatore.innerText = "click: " + clickCount.toFixed(1);
         monete.innerText = "resets: " + coinCount;
         absreset.innerText = "absolute resets: " + absresetCount;
 
